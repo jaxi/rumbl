@@ -12,8 +12,14 @@
 
 alias Rumbl.Repo
 alias Rumbl.Category
+alias Rumbl.Video
 
 for category <- ~w(Action Drama Romance Comedy Sci-fi) do
   Repo.get_by(Category, name: category) ||
     Repo.insert!(%Category{name: category})
+end
+
+for video <- Repo.all(Video) do
+  changeset = Video.changeset(video)
+  Repo.update(changeset)
 end

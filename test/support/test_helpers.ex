@@ -14,8 +14,14 @@ defmodule Rumbl.TestHelpers do
   end
 
   def insert_video(user, attrs \\ %{}) do
-    user
-    |> Ecto.build_assoc(:videos, attrs)
-    |> Repo.insert!()
+    changes = Dict.merge(%{
+      description: "some content",
+      title: "some content",
+      url: "http://rumbl.test",
+      user_id: user.id
+    }, attrs)
+
+    Rumbl.Video.changeset(%Rumbl.Video{}, changes)
+    |> Repo.insert!
   end
 end
